@@ -19,7 +19,11 @@ export class NumberExpression extends Expression {
     }
 }
 
-export abstract class BinaryOperator extends Expression {
+export abstract class Operator extends Expression {
+    abstract fill(index: number, array: Expression[]): void
+}
+
+export abstract class BinaryOperator extends Operator {
     leftArgument?: Expression
     rightArgument?: Expression
     constructor(leftArgument?: Expression, rightArgument?: Expression) {
@@ -27,6 +31,15 @@ export abstract class BinaryOperator extends Expression {
         this.leftArgument = leftArgument
         this.rightArgument = rightArgument
     }
+    fill(index: number, array: Expression[]) {
+        const leftArgument = array[index - 1].root()
+        const rightArgument = array[index + 1].root()
+        this.leftArgument = leftArgument
+        this.rightArgument = rightArgument
+        leftArgument.parent = this
+        rightArgument.parent = this
+    }
+
     value(): number {
         if (this.leftArgument === undefined || this.rightArgument === undefined)
             throw Error("Something went wrong")
@@ -63,12 +76,18 @@ export class DivideOperator extends BinaryOperator {
     }
 }
 
-export abstract class UnaryOperator extends Expression {
+export abstract class UnaryOperator extends Operator {
     argument?: Expression
     constructor(argument?: Expression) {
         super();
         this.argument = argument
     }
+    fill(index: number, array: Expression[]) {
+        const argument = array[index + 1].root()
+        this.argument = argument
+        argument.parent = this
+    }
+
     value() {
         if (this.argument === undefined)
             throw Error("Something went wrong")

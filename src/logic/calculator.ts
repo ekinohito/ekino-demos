@@ -2,7 +2,7 @@ import {
     DivideOperator,
     Expression, MultiplyOperator,
     NegativeOperator,
-    NumberExpression,
+    NumberExpression, Operator,
     PositiveOperator, SubtractOperator,
     SumOperator,
 } from "./expression";
@@ -38,10 +38,6 @@ type Match = {
 }
 type ParsedSymbol = Match & {
     index: number
-}
-
-function isParsedSymbol(mixed: ParsedSymbol | Expression): mixed is ParsedSymbol {
-    return (mixed as ParsedSymbol).type !== undefined
 }
 
 function parse_expression(expression: string): ParsedSymbol[] {
@@ -82,29 +78,17 @@ export function compute_expression(expression: string): string {
     })
     expressions.forEach((expression, index, array) => {
         if (expression instanceof PositiveOperator || expression instanceof NegativeOperator) {
-            const argument = array[index + 1].root()
-            expression.argument = argument
-            argument.parent = expression
+            expression.fill(index, array)
         }
     })
     expressions.forEach((expression, index, array) => {
         if (expression instanceof MultiplyOperator || expression instanceof DivideOperator) {
-            const leftArgument = array[index - 1].root()
-            const rightArgument = array[index + 1].root()
-            expression.leftArgument = leftArgument
-            expression.rightArgument = rightArgument
-            leftArgument.parent = expression
-            rightArgument.parent = expression
+            expression.fill(index, array)
         }
     })
     expressions.forEach((expression, index, array) => {
         if (expression instanceof SumOperator || expression instanceof SubtractOperator) {
-            const leftArgument = array[index - 1].root()
-            const rightArgument = array[index + 1].root()
-            expression.leftArgument = leftArgument
-            expression.rightArgument = rightArgument
-            leftArgument.parent = expression
-            rightArgument.parent = expression
+            expression.fill(index, array)
         }
     })
     return expressions[0].root().value().toString()
