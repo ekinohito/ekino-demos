@@ -32,6 +32,8 @@ export abstract class BinaryOperator extends Operator {
         this.rightArgument = rightArgument
     }
     fill(index: number, array: Expression[]) {
+        if (index - 1 < 0 || index + 1 >= array.length || this.parent !== null)
+            throw new Error("Wrong operator placement!")
         const leftArgument = array[index - 1].root()
         const rightArgument = array[index + 1].root()
         this.leftArgument = leftArgument
