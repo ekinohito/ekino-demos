@@ -85,6 +85,8 @@ export abstract class UnaryOperator extends Operator {
         this.argument = argument
     }
     fill(index: number, array: Expression[]) {
+        if (index + 1 >= array.length || this.parent !== null)
+            throw new Error("Wrong operator placement!")
         const argument = array[index + 1].root()
         this.argument = argument
         argument.parent = this
