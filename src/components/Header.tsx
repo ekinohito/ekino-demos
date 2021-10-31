@@ -1,14 +1,24 @@
 import React from 'react'
-import {AppBar, Link, Toolbar, Typography} from "@mui/material";
+import {AppBar, Container, Link, Toolbar, Typography} from "@mui/material";
+import NextLink from "next/link"
+import {useRouter} from "next/router";
 
-export default function Header() {
+export default function Header(props: { links?: { href: string, text?: string }[] }) {
+    const router = useRouter()
     return <>
         <AppBar position="sticky">
-            <Toolbar>
-                <Typography variant="h4" flexGrow={ 1 }>Ekino Demos</Typography>
-                <Link color="primary.contrastText" sx={{ ml: 2, cursor: "pointer" }}>calculator</Link>
-                <Link color="grey.400" sx={{ ml: 2, cursor: "pointer"  }}>everything else idk</Link>
-            </Toolbar>
+            <Container>
+                <Toolbar>
+                    <NextLink href="/">
+                        <Typography variant="h4" flexGrow={ 1 }>
+                            <span style={{ cursor: "pointer" }}>Ekino Demos</span>
+                        </Typography>
+                    </NextLink>
+                    { props.links?.map(link => <NextLink key={ link.href } href={ link.href } passHref>
+                        <Link color={(link.href === router.pathname)?"primary.contrastText":"grey.400"} sx={{ ml: 2, cursor: "pointer" }}>{ link.text }</Link>
+                    </NextLink>) }
+                </Toolbar>
+            </Container>
         </AppBar>
     </>
 }

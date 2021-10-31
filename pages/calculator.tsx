@@ -13,7 +13,6 @@ const Calculator: NextPage = () => {
                 <meta name="description" content="Calculator written by me"/>
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
-            <Header/>
             <Input
                 value={ input }
                 onChange={ (event) => setInput(event.target.value) }/>
