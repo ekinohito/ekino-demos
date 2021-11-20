@@ -1,7 +1,7 @@
 import {split_expression} from "./piece";
 import {parse_plain} from "./parser";
 
-export function compute_expression(expression: string): string {
+export function computeExpression(expression: string): string {
     try {
         const pieces = split_expression(expression)
         const parsed_expression = parse_plain(pieces)

@@ -6,6 +6,7 @@ export default function Layout(props: { children: React.ReactElement }) {
     return <>
         <Header links={[
             { href: "/calculator", text: "calculator" },
+            { href: "/handwriting", text: "handwriting" },
             { href: "/", text: "everything else idk" }
         ]}/>
         <Container>

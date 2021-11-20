@@ -1,11 +1,11 @@
 import {useState} from "react";
-import {compute_expression} from "../logic/calculator";
+import {computeExpression} from "../logic/calculator";
 
 
 
 export function useCalculator() {
     const [input, setInput] = useState('')
     const [result, setResult] = useState('')
-    const compute = () => setResult(compute_expression(input))
+    const compute = () => setResult(computeExpression(input))
     return { input, setInput, result, compute }
 }
