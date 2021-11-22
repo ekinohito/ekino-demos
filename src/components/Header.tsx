@@ -7,7 +7,7 @@ import Avatar from "./Avatar";
 export default function Header(props: { links?: { href: string, text?: string }[] }) {
     const router = useRouter()
     return <>
-        <AppBar position="sticky">
+        <AppBar position="sticky" sx={{marginBottom: 4}}>
             <Container>
                 <Toolbar>
                     <NextLink href="/">
